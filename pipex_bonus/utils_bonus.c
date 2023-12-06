@@ -1,16 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/01 02:20:57 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/05 15:54:43 by sel-jett         ###   ########.fr       */
+/*   Created: 2023/12/06 18:16:32 by sel-jett          #+#    #+#             */
+/*   Updated: 2023/12/06 18:16:33 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (dstsize)
+	{
+		while ((i + 1) < dstsize && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
 
 static int	count_words(char const *str, char c)
 {
@@ -61,7 +78,7 @@ static	char	**ft_fill_str(char **str, char const *s, char c)
 	return (str);
 }
 
-void	ft_free(char **str, int len)
+static void	ft_free(char **str, int len)
 {
 	int	i;
 
