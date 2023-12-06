@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 03:24:38 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/05 18:52:33 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/06 10:45:26 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ void	ft_the_work(t_pipe pipex)
 		perror("Error forking");
 	else if (!pipex.pid)
 	{
-		close(pipex.pfd[1]);
+		close(pipex.pfd[0]);
 		if (dup2(pipex.in_fd, 0) == -1)
 			perror(strerror(errno));
 		if (dup2(pipex.pfd[1], 1) == -1)
 			perror(strerror(errno));
+		ft_execute(pipex.cmd_1, pipex);
 	}
 	else if (pipex.pid > 0)
 	{
@@ -44,6 +45,7 @@ void	ft_the_work(t_pipe pipex)
 			perror(strerror(errno));
 		if (dup2(pipex.pfd[0], 0) == -1)
 			perror(strerror(errno));
+		ft_execute(pipex.cmd_2, pipex);
 	}
 }
 
@@ -65,6 +67,7 @@ int main(int ac, char **av, char **env)
 			i++;
 		(!env[i]) && (perror("Path doesn't exist!!"), 0);
 		pipex.path = ft_split(env[i], ':');
+		pipex.env = env;
 		ft_the_work(pipex);
 	}
 	else
