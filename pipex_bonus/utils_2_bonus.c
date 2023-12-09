@@ -6,11 +6,11 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:40 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/06 18:16:41 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/07 10:09:38 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_execute(char **cmd, t_pipe pipex)
 {

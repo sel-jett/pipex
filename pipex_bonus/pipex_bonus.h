@@ -6,12 +6,12 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:47 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/06 18:17:49 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/07 11:05:25 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,7 +26,7 @@ typedef struct s_pipe
 	pid_t	pid2;
 	int		pfd[2];
 	char	**env;
-	char	***cmds;
+	char	***cmd;
 	char	**path;
 	int		in_fd;
 	int		out_fd;
