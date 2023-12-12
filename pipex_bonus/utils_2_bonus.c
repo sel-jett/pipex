@@ -6,34 +6,34 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:40 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/07 10:09:38 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:22:41 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_execute(char **cmd, t_pipe pipex)
-{
-	int		i;
-	char	*env_var;
+// void	ft_execute(char **cmd, t_pipe pipex)
+// {
+// 	int		i;
+// 	char	*env_var;
 
-	i = 0;
-	while (pipex.path[i])
-	{
-		env_var = ft_strjoin("/", cmd[0]);
-		env_var = ft_strjoin(pipex.path[i], env_var);
-		if (!access(env_var, F_OK))
-		{
-			if (!access(env_var, X_OK))
-				execve(env_var, cmd, pipex.env);
-			else
-				perror(strerror(errno));
-		}
-		free(env_var);
-		i++;
-	}
-	perror(strerror(errno));
-}
+// 	i = 0;
+// 	while (pipex.path[i])
+// 	{
+// 		env_var = ft_strjoin("/", cmd[0]);
+// 		env_var = ft_strjoin(pipex.path[i], env_var);
+// 		if (!access(env_var, F_OK))
+// 		{
+// 			if (!access(env_var, X_OK))
+// 				execve(env_var, cmd, pipex.env);
+// 			else
+// 				perror(strerror(errno));
+// 		}
+// 		free(env_var);
+// 		i++;
+// 	}
+// 	perror(strerror(errno));
+// }
 
 size_t	ft_strlen(const char *s)
 {

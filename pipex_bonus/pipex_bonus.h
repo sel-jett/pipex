@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:47 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/07 11:05:25 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:16:21 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ typedef struct s_pipe
 {
 	pid_t	pid;
 	pid_t	pid2;
-	int		pfd[2];
+	int		ac;
+	int		*pfd[2];
 	char	**env;
 	char	***cmd;
 	char	**path;
@@ -37,7 +38,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 void	ft_the_work(t_pipe pipex);
-void	ft_execute(char **cmd, t_pipe pipex);
+void	ft_execute(t_pipe pipex);
 int	main(int ac, char **av, char **env);
 
 
