@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:47 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/12 18:16:21 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/12 19:45:47 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_pipe
 	pid_t	pid;
 	pid_t	pid2;
 	int		ac;
-	int		*pfd[2];
+	int		**pfd;
 	char	**env;
 	char	***cmd;
 	char	**path;

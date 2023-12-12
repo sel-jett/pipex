@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:53 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/12 18:21:53 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/12 19:56:01 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include <stdlib.h>
 
 static int ft_strcmp(char *s1, char *s2)
 {
@@ -28,19 +29,27 @@ void	ft_the_work(t_pipe pipex)
 	int	i;
 
 	i = 0;
+	pipex.pfd = malloc((pipex.ac - 1) * sizeof(int *));
+	if (!pipex.pfd)
+		return ;
 	while (i < pipex.ac)
 	{
+		pipex.pfd[i] = malloc(sizeof(int) * 3);
+		if (!pipex.pfd[i])
+			exit(1);
 		if (i == 0)
 		{
 			close(pipex.pfd[i][0]);
 			dup2(pipex.in_fd, STDIN_FILENO);
+			printf(">>>>> 7 %d  \n", pipex.pfd[i][1]);
 			dup2(pipex.pfd[i][1], STDOUT_FILENO);
+		puts("zbuba f kr l3zwa");
 		}
-		if (i == (pipex.ac - 1))
+		else if (i == (pipex.ac - 1))
 		{
 			close(pipex.pfd[i - 1][1]);
-			dup2(pipex.out_fd, STDOUT_FILENO);
 			dup2(pipex.pfd[i - 1][0], STDIN_FILENO);
+			dup2(pipex.out_fd, STDOUT_FILENO);
 		}
 		else
 		{
@@ -78,62 +87,6 @@ void	ft_execute(t_pipe pipex)
 	perror(strerror(errno));
 }
 
-
-
-
-
-	/* int	i;
-
-	i = 0;
-
-
-	pipe(pipex.pfd);
-	pipex.pid = fork();
-
-	printf("%d\n", pipex.pid);
-	if (pipex.pid < 0)
-		perror("Error forking");
-	else if (!pipex.pid)
-	{
-		printf("pid 2%d\n", pipex.pid);
-		close(pipex.pfd[0]);
-		if (dup2(pipex.in_fd, STDIN_FILENO) == -1)
-			perror(strerror(errno));
-		if (dup2(pipex.pfd[1], STDOUT_FILENO) == -1)
-			perror(strerror(errno));
-		ft_execute(pipex.cmd[0], pipex);
-		close(pipex.in_fd);
-		close(pipex.pfd[1]);
-	}
-	while (++i < k)
-	{
-		if (pipex.pid > 0)
-		{
-			pipex.pid = fork();
-			if (!pipex.pid)
-			{
-				printf("pid 1 : %d\n", pipex.pid);
-				close(pipex.pfd[1]);
-				if (dup2(pipex.pfd[0], STDIN_FILENO) == -1)
-					perror(strerror(errno));
-				if (dup2(pipex.out_fd, STDOUT_FILENO) == -1)
-					perror(strerror(errno));
-				close(pipex.out_fd);
-				ft_execute(pipex.cmd[i], pipex);
-				close(pipex.pfd[0]);
-			}
-			else
-			{
-				wait(NULL);
-				puts("Donne1");
-				close(pipex.pfd[0]);
-				close(pipex.pfd[1]);
-				wait(NULL);
-			}
-		}
-	} */
-// }
-
 int main(int ac, char **av, char **env)
 {
 	t_pipe	pipex;
@@ -151,13 +104,14 @@ int main(int ac, char **av, char **env)
 		pipex.out_fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		(pipex.out_fd < 0) && (perror("outfile faild\n"), 0);
 		pipex.cmd = (char ***)malloc((ac - 1) * sizeof(char **));
-		pipex.ac = ac;
 		if (!pipex.cmd)
 			return (1);
+		pipex.ac = ac;
 		while (j < (ac - 1))
 		{
 			// puts(av[j]);
 			pipex.cmd[k] = ft_split(av[j], ' ');
+			puts(*pipex.cmd[0]);
 			j++;
 			k++;
 		}
@@ -167,7 +121,7 @@ int main(int ac, char **av, char **env)
 		pipex.path = ft_split(env[i], ':');
 		pipex.env = env;
 		puts("dkhlat");
-		ft_the_work(pipex);
+		ft_execute(pipex);
 		puts("Makherjat");
 		while (--k)
 			printf("%s\n", *pipex.cmd[k]);

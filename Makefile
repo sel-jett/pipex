@@ -4,7 +4,7 @@ SRCB = $(bon)utils_2_bonus.c $(bon)utils_bonus.c $(bon)main_bonus.c
 OBJ = ${SRC:.c=.o}
 OBJB = ${SRCB:.c=.o}
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror 
 NAME = pipex
 BNAME = pipex_bon
 
