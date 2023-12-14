@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:40 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/12 18:22:41 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:54:30 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -51,17 +53,18 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	size;
 	size_t	i;
 
-	if (!s1 || !s2)
-		return (0);
 	size = ft_strlen(s1) + ft_strlen(s2);
 	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
 		return (0);
 	i = 0;
-	while (s1[i])
+	if (s1)
 	{
-		str[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			str[i] = s1[i];
+			i++;
+		}
 	}
 	size = 0;
 	while (s2[size])
@@ -72,4 +75,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[i + size] = '\0';
 	return (str);
 }
-

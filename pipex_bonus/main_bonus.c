@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:53 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/12 19:56:01 by salah            ###   ########.fr       */
+/*   Updated: 2023/12/13 21:12:30 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,65 +24,117 @@ static int ft_strcmp(char *s1, char *s2)
 }
 
 
-void	ft_the_work(t_pipe pipex)
+void	ft_the_work(t_pipe pipex, int i, char *env_var)
 {
-	int	i;
-
-	i = 0;
-	pipex.pfd = malloc((pipex.ac - 1) * sizeof(int *));
-	if (!pipex.pfd)
-		return ;
-	while (i < pipex.ac)
-	{
-		pipex.pfd[i] = malloc(sizeof(int) * 3);
+		pipex.pfd[i] = malloc(sizeof(int) * 2);
 		if (!pipex.pfd[i])
-			exit(1);
+			return ;
+		pipe(pipex.pfd[i]);
 		if (i == 0)
 		{
-			close(pipex.pfd[i][0]);
-			dup2(pipex.in_fd, STDIN_FILENO);
-			printf(">>>>> 7 %d  \n", pipex.pfd[i][1]);
-			dup2(pipex.pfd[i][1], STDOUT_FILENO);
-		puts("zbuba f kr l3zwa");
+			close(pipex.pfd[i][1]);
+			if (dup2(pipex.in_fd, STDIN_FILENO) == -1)
+				perror("strerror(errno) 1");
+			if (dup2(pipex.pfd[i][0], STDOUT_FILENO) == -1)
+				perror("strerror(errno) 2");
+			puts("zbuba f ker l3ezwa");
+			if (!access(env_var, F_OK))
+			{
+				if (!access(env_var, X_OK))
+				{
+					puts("zbuba f ker l3ezwa");
+					execve(env_var, pipex.cmd[0], pipex.env);
+				}
+				else
+					perror(strerror(errno));
+			}
 		}
 		else if (i == (pipex.ac - 1))
 		{
 			close(pipex.pfd[i - 1][1]);
-			dup2(pipex.pfd[i - 1][0], STDIN_FILENO);
-			dup2(pipex.out_fd, STDOUT_FILENO);
+			if (dup2(pipex.pfd[i - 1][0], STDIN_FILENO) == -1)
+				perror("strerror(errno) 3");
+			if (dup2(pipex.out_fd, STDOUT_FILENO) == -1)
+				perror("strerror(errno) 4");
+			if (!access(env_var, F_OK))
+			{
+				if (!access(env_var, X_OK))
+				{
+					puts("zbuba f ker l3ezwa");
+					execve(env_var, pipex.cmd[2], pipex.env);
+				}
+				else
+					perror(strerror(errno));
+			}
 		}
 		else
 		{
 			close(pipex.pfd[i-1][1]);
 			close(pipex.pfd[i][0]);
-			dup2(pipex.pfd[i-1][0], STDIN_FILENO);
-			dup2(pipex.pfd[i][1], STDOUT_FILENO);
+			if (dup2(pipex.pfd[i-1][0], STDIN_FILENO) == -1)
+				perror("strerror(errno) 5");
+			if (dup2(pipex.pfd[i][1], STDOUT_FILENO) == -1)
+				perror("strerror(errno) 6");
+			if (!access(env_var, F_OK))
+			{
+				if (!access(env_var, X_OK))
+				{
+					execve(env_var, pipex.cmd[1], pipex.env);
+				}
+				else
+					perror(strerror(errno));
+			}
 		}
-		i++;
-	}
 }
 
 void	ft_execute(t_pipe pipex)
 {
 	int		i;
+	int		j;
 	char	*env_var;
+	// char	*cmd;
 
-	i = 0;
-	ft_the_work(pipex);
-	while (pipex.path[i])
+	j = 0;
+	pipex.pfd = malloc((pipex.ac - 1) * sizeof(int *));
+	if (!pipex.pfd)
+		return ;
+	// cmd = NULL;
+	// while (pipex.cmd[j])
+	// {
+	// 	i = 0;
+	// 	while (pipex.cmd[j][i])
+	// 	{
+	// 		cmd = ft_strjoin(cmd, pipex.cmd[j][i]);
+	// 		i++;
+	// 	}
+	// 	j++;
+	// }
+	// puts(cmd);
+	int	k = 0;
+	while (pipex.cmd[j])
 	{
-		env_var = ft_strjoin("/", *(pipex.cmd[0]));
-		pipex.cmd++;
-		env_var = ft_strjoin(pipex.path[i], env_var);
-		if (!access(env_var, F_OK))
+		i = 0;
+		while (pipex.path[i])
 		{
-			if (!access(env_var, X_OK))
-				execve(env_var, *pipex.cmd, pipex.env);
-			else
-				perror(strerror(errno));
+			pipex.pid = fork();
+			if (pipex.pid == 0)
+			{
+				k = 0;
+				// puts(pipex.cmd[i][0]);
+				while (pipex.cmd[i][k])
+				{
+					env_var = ft_strjoin("/", *(pipex.cmd[j]));
+					k++;
+				}
+				env_var = ft_strjoin(pipex.path[i], env_var);
+				puts(env_var);
+				ft_the_work(pipex, i, env_var);
+				free(env_var);
+				env_var = NULL;
+			}
+			i++;
 		}
-		free(env_var);
-		i++;
+		j++;
 	}
 	perror(strerror(errno));
 }
@@ -109,9 +161,8 @@ int main(int ac, char **av, char **env)
 		pipex.ac = ac;
 		while (j < (ac - 1))
 		{
-			// puts(av[j]);
-			pipex.cmd[k] = ft_split(av[j], ' ');
-			puts(*pipex.cmd[0]);
+			pipex.cmd[k] = &av[j];
+			puts(*pipex.cmd[k]);
 			j++;
 			k++;
 		}
@@ -123,10 +174,17 @@ int main(int ac, char **av, char **env)
 		puts("dkhlat");
 		ft_execute(pipex);
 		puts("Makherjat");
-		while (--k)
-			printf("%s\n", *pipex.cmd[k]);
+		// k = 0;
+		// while (pipex.cmd[k])
+		// 	printf("%s\n", *pipex.cmd[k++]);
 	}
 	else
 		perror("Path unfound\n");
+	j = 0;
+	while (j < (pipex.ac - 3))
+	{
+		wait(NULL);
+		j++;
+	}
 	return (0);
 }
