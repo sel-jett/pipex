@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:32 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/07 10:09:43 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/22 16:50:41 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	count_words(char const *str, char c)
 	return (count);
 }
 
-static	char	**ft_fill_str(char **str, char const *s, char c)
+static	char	**ft_fill_str(t_pipe *pipex, char **str, char const *s, char c)
 {
 	int	i;
 	int	pos;
@@ -68,9 +68,7 @@ static	char	**ft_fill_str(char **str, char const *s, char c)
 		calc = i;
 		while (s[i] && s[i] != c)
 			i++;
-		str[pos] = malloc(sizeof(char) * (i - calc + 1));
-		if (!str[pos])
-			return (0);
+		str[pos] = my_malloc(pipex, (sizeof(char) * (i - calc + 1)), 1);
 		ft_strlcpy(str[pos], (s + calc), (i - calc + 1));
 		pos++;
 	}
@@ -78,21 +76,7 @@ static	char	**ft_fill_str(char **str, char const *s, char c)
 	return (str);
 }
 
-static void	ft_free(char **str, int len)
-{
-	int	i;
-
-	(void)len;
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
-char	**ft_split(char const *s, char c)
+char	**ft_split(t_pipe *pipex, char const *s, char c)
 {
 	int		words;
 	char	**str;
@@ -100,13 +84,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	words = count_words(s, c);
-	str = malloc(sizeof(char *) * (words + 1));
-	if (!str)
-		return (0);
-	if (!ft_fill_str(str, s, c))
-	{
-		ft_free(str, words);
-		return (0);
-	}
+	str = my_malloc(pipex, (sizeof(char *) * (words + 1)), 1);
+	ft_fill_str(pipex, str, s, c);
 	return (str);
 }

@@ -6,14 +6,14 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:53 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/21 20:53:10 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:01:47 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include <stdlib.h>
 
-static int ft_strcmp(char *s1, char *s2)
+static int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
@@ -35,7 +35,6 @@ char	*get_path(char **env)
 		if (!ft_strcmp(env[i], "PATH"))
 		{
 			pwd = env[i];
-			// puts(pwd);
 			break ;
 		}
 		i++;
@@ -45,24 +44,26 @@ char	*get_path(char **env)
 
 int	check_parsing(t_pipe *pipex, int ac, char **av)
 {
+	int	i;
+
 	if (ac < 5)
 		exit(1);
+	i = -1;
 	pipex->ac = ac;
 	pipex->cmd = 2;
-	pipex->in_fd = open("file.txt", O_RDONLY);
+	pipex->in_fd = open(av[1], O_RDONLY);
 	if (pipex->in_fd == -1)
-		exit(1);
+		return (exit(1), 0);
 	pipex->out_fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (pipex->out_fd == -1)
-		exit(1);
-
-	pipex->fd = calloc(sizeof(int), (ac - 3));
-	if (!pipex->fd)
-    	return (free(pipex->fd), exit(1), 0);
-	int	i = -1;
+		return (ft_close(pipex->in_fd), exit(1), 0);
+	pipex->fd = my_malloc(pipex, (sizeof(int *) * (ac - 3)), 1);
 	while (++i < ac - 4)
-		pipex->fd[i] = malloc(sizeof(int) * 2);
-
+		pipex->fd[i] = my_malloc(pipex, sizeof(int) * 2, 1);
+	i = -1;
+	while (++i < (ac - 4))
+		if (pipe((pipex->fd[i])) == -1)
+			perror("pipe error");
 	return (0);
 }
 
@@ -80,21 +81,12 @@ int	main(int ac, char **av, char **env)
 	t_pipe	pipex;
 	int		i;
 
-	ft_init_pipe(&pipex);
-	check_parsing(&pipex, ac, av);
-	pipex.path = ft_split(get_path(env), ':');
-	i = -1;
-	while (++i < (ac - 4))
-	{
-		dprintf(2, "%d\n", pipe((pipex.fd[i])));
-		// if (pipe((pipex.fd[i])) == -1)
-		// 	perror("pipe error");
-	}
-	i = -1;
+	(1) && (i = -1, ft_init_pipe(&pipex), check_parsing(&pipex, ac, av));
+	pipex.path = ft_split(&pipex, get_path(env), ':');
 	while (++i < (ac - 3))
 	{
-		if ((pipex.pid = fork()) == -1)
-			perror("fork error");
+		pipex.pid = fork();
+		(pipex.pid == -1) && (perror("fork error"), 0);
 		if (i == 0 && pipex.pid == 0)
 			ft_first_cmd(&pipex, env, av);
 		else if (i < (ac - 4) && pipex.pid == 0)
@@ -108,13 +100,7 @@ int	main(int ac, char **av, char **env)
 			break ;
 		i = -1;
 		while (++i < (ac - 4))
-		{
-			ft_close(pipex.fd[i][0]);
-			ft_close(pipex.fd[i][1]);
-		}
+			(1) && (ft_close(pipex.fd[i][0]), ft_close(pipex.fd[i][1]), 0);
 	}
-	ft_close(pipex.out_fd);
-	ft_close(pipex.in_fd);
-
-	return (0);
+	return (my_malloc(&pipex, 0, 2), 0);
 }
