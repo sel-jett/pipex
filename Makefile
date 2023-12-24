@@ -1,7 +1,8 @@
 bon = pipex_bonus/
-SRC = utils_2.c utils.c main.c
-SRCB = $(bon)utils_2_bonus.c $(bon)utils_bonus.c $(bon)handler_bonus.c \
-		$(bon)my_malloc.c $(bon)main_bonus.c
+SRC = my_malloc.c utils_2.c utils.c main.c
+SRCB =  $(bon)utils_2_bonus.c $(bon)utils_bonus.c $(bon)handler_bonus.c \
+		$(bon)my_malloc_bonus.c $(bon)get_next_line.c \
+		$(bon)get_next_line_utils.c $(bon)here_doc.c $(bon)main_bonus.c
 OBJ = ${SRC:.c=.o}
 OBJB = ${SRCB:.c=.o}
 CC = cc

@@ -6,26 +6,27 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 17:14:12 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/06 14:57:15 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/24 22:11:55 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_execute(char **cmd, t_pipe pipex)
+void	ft_execute(t_pipe *pipex, char **cmd)
 {
 	int		i;
 	char	*env_var;
 
 	i = 0;
-	while (pipex.path[i])
+	(!cmd[0]) && (write(2, "Invalid commande\n", 17), my_malloc(pipex, 0, 0), 0);
+	while (pipex->path[i])
 	{
-		env_var = ft_strjoin("/", cmd[0]);
-		env_var = ft_strjoin(pipex.path[i], env_var);
+		env_var = ft_strjoin(pipex, "/", cmd[0]);
+		env_var = ft_strjoin(pipex, pipex->path[i], env_var);
 		if (!access(env_var, F_OK))
 		{
 			if (!access(env_var, X_OK))
-				execve(env_var, cmd, pipex.env);
+				execve(env_var, cmd, pipex->env);
 			else
 				perror(strerror(errno));
 		}
@@ -45,7 +46,16 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	ft_close(int i)
+{
+	if (i != -1)
+	{
+		close(i);
+		i = -1;
+	}
+}
+
+char	*ft_strjoin(t_pipe *pipex, char const *s1, char const *s2)
 {
 	char	*str;
 	size_t	size;
@@ -54,9 +64,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (0);
 	size = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(sizeof(char) * (size + 1));
-	if (!str)
-		return (0);
+	str = my_malloc(pipex, (sizeof(char) * (size + 1)), 1);
 	i = 0;
 	while (s1[i])
 	{

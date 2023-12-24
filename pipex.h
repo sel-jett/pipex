@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 04:29:21 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/06 14:44:09 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/24 22:15:17 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,21 @@ typedef struct s_pipe
 	int		out_fd;
 }	t_pipe;
 
+typedef struct t_data
+{
+	void			*data;
+	struct t_data	*next;
+}	t_data;
+
+void	ft_close(int i);
+void	*my_malloc(t_pipe *pipex, int size, int mode);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	**ft_split(char const *s, char c);
-void	ft_the_work(t_pipe pipex);
-void	ft_execute(char **cmd, t_pipe pipex);
-int	main(int ac, char **av, char **env);
+char	*ft_strjoin(t_pipe *pipex, char const *s1, char const *s2);
+char	**ft_split(t_pipe *pipex,char const *s, char c);
+void	ft_the_work(t_pipe *pipex);
+void	ft_execute(t_pipe *pipex, char **cmd);
+int		main(int ac, char **av, char **env);
 
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:47:54 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/22 16:26:31 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/24 22:02:44 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "pipex.h"
 
 void	dataclear(t_data **head)
 {
@@ -37,11 +37,8 @@ void	ft_close_all(t_pipe *pipex, int mode)
 	i = -1;
 	if (mode)
 	{
-		while (++i < (pipex->ac - 4))
-		{
-			ft_close(pipex->fd[i][0]);
-			ft_close(pipex->fd[i][1]);
-		}
+		ft_close(pipex->pfd[0]);
+		ft_close(pipex->pfd[1]);
 	}
 	ft_close(pipex->in_fd);
 	ft_close(pipex->out_fd);

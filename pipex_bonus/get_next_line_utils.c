@@ -6,13 +6,13 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:21:59 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/11/17 21:03:45 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:56:39 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex_bonus.h"
 
-size_t	ft_strlen(char *str)
+size_t	my_strlen(char *str)
 {
 	size_t	i;
 
@@ -51,14 +51,14 @@ char	*my_strcpy(char *s1, char *s2, char *str)
 	return (str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_get(char *s1, char *s2)
 {
 	char	*str;
 	size_t	size;
 
 	if (!s2)
 		return (s1);
-	size = ft_strlen(s1) + ft_strlen(s2);
+	size = my_strlen(s1) + my_strlen(s2);
 	str = malloc(sizeof(char) * (size + 1));
 	if (!str)
 		return (NULL);

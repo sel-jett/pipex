@@ -6,11 +6,11 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 11:11:35 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/11/15 13:05:22 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:56:55 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "pipex_bonus.h"
 
 char	*get_the_line(char *str)
 {
@@ -18,7 +18,7 @@ char	*get_the_line(char *str)
 	int		len;
 	int		i;
 
-	if (!str || ft_strlen(str) == 0)
+	if (!str || my_strlen(str) == 0)
 		return (NULL);
 	i = -1;
 	len = ft_str_line(str);
@@ -39,9 +39,9 @@ char	*get_the_rest(char *str, size_t size)
 	int		i;
 
 	i = -1;
-	if (!str || ft_strlen(str) <= 0)
+	if (!str || my_strlen(str) <= 0)
 		return (free(str), str = NULL, NULL);
-	len = ft_strlen(str);
+	len = my_strlen(str);
 	lgth = len - size;
 	if (lgth <= 0)
 		return (free(str), str = NULL, NULL);
@@ -71,7 +71,7 @@ char	*ft_read_all(int fd, char *str)
 		buffer[readed] = '\0';
 		if (readed == 0)
 			break ;
-		str = ft_strjoin(str, buffer);
+		str = ft_strjoin_get(str, buffer);
 		if (find_line(str))
 			break ;
 	}
@@ -90,6 +90,6 @@ char	*get_next_line(int fd)
 	if (!str)
 		return (NULL);
 	line = get_the_line(str);
-	str = get_the_rest(str, ft_strlen(line));
+	str = get_the_rest(str, my_strlen(line));
 	return (line);
 }
