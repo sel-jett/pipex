@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 21:03:19 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/25 01:36:24 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/25 03:03:20 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,7 @@ void	ft_first_cmd(t_pipe *pipex, char **env, char **av)
 		}
 	}
 	ft_close(pipex->out_fd);
-	if (dup2(pipex->in_fd, STDIN_FILENO) == -1)
-	{
-		perror("in_file");
-		my_malloc(pipex, 0, 0);
-	}
+	dup2(pipex->in_fd, STDIN_FILENO);
 	if (dup2(pipex->fd[0][1], STDOUT_FILENO) == -1)
 		(1) && (perror("fd1"), my_malloc(pipex, 0, 0), 0);
 	while (++i < ((pipex->ac - 4)))

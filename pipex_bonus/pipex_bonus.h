@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:47 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/25 01:39:20 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/25 02:44:35 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct t_data
 
 char	*get_path(char **env);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_file(char *file);
+int		ft_file(char *file, int mode);
 int		ft_strcmp_two(char *s1, char *s2);
 void	ft_close(int i);
 void	ft_close_all(t_pipe *pipex, int mode);

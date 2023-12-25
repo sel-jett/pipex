@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:53 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/25 00:54:33 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/25 03:05:38 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,19 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	ft_file(char *file)
+int	ft_file(char *file, int mode)
 {
-	write(2, "no such file or directory : ", 28);
-	write(2, file, ft_strlen(file));
-	write(2, "\n", 1);
+	if (mode)
+	{
+		write(2, file, ft_strlen(file));
+		write(2, ": Permission denied\n", 20);
+	}
+	else
+	{
+		write(2, "no such file or directory : ", 28);
+		write(2, file, ft_strlen(file));
+		write(2, "\n", 1);
+	}
 	return (1);
 }
 
@@ -60,6 +68,7 @@ int	main(int ac, char **av, char **env)
 	t_pipe	pipex;
 	int		i;
 
+	(ac < 6) && (write(2, "invalid arguments\n", 18), exit(1), 0);
 	if (ft_strcmp("here_doc", av[1]) != 0)
 	{
 		(1) && (i = -1, ft_init_pipe(&pipex), check_parsing(&pipex, ac, av));
