@@ -6,11 +6,19 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 15:49:53 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/24 22:12:09 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/25 02:12:41 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	ft_invalid(char *cmd)
+{
+	write(2, "Commande Error : ", 17);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, "\n", 1);
+	return (1);
+}
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
