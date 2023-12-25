@@ -6,7 +6,7 @@
 #    By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/25 01:46:31 by sel-jett          #+#    #+#              #
-#    Updated: 2023/12/25 01:48:39 by sel-jett         ###   ########.fr        #
+#    Updated: 2023/12/25 03:19:13 by sel-jett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,4 +50,4 @@ clean:
 fclean: clean
 	@rm -f ${NAME} ${BNAME}
 
-.Phony: all clean fclean bonus
+.PHONY: all clean fclean bonus
