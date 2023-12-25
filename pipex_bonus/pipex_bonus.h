@@ -6,7 +6,7 @@
 /*   By: sel-jett <sel-jett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:16:47 by sel-jett          #+#    #+#             */
-/*   Updated: 2023/12/24 18:42:48 by sel-jett         ###   ########.fr       */
+/*   Updated: 2023/12/25 01:39:20 by sel-jett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+// typedef pipex pip;
 
 typedef struct s_pipe
 {
@@ -42,11 +44,14 @@ typedef struct t_data
 }	t_data;
 
 char	*get_path(char **env);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_file(char *file);
 int		ft_strcmp_two(char *s1, char *s2);
 void	ft_close(int i);
 void	ft_close_all(t_pipe *pipex, int mode);
 void	*my_malloc(t_pipe *pipex, int size, int mode);
 size_t	ft_strlen(const char *s);
+int		ft_invalid(char *cmd);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(t_pipe *pipex, char const *s1, char const *s2);
 char	**ft_split(t_pipe *pipex, char const *s, char c);
@@ -55,6 +60,8 @@ void	ft_init_pipe(t_pipe *pipex);
 void	ft_first_cmd(t_pipe *pipex, char **env, char **av);
 // void	ft_first_cmd(t_pipe pipex, char **env, int cmd, char **av);
 // void	ft_execute(t_pipe pipex);
+char	*get_path(char **env);
+int		check_parsing(t_pipe *pipex, int ac, char **av);
 void	ft_execute(t_pipe *pipex, char **env, int cmd, char **av);
 int		here_doc(t_pipe *pipex, int ac, char **av, char **env);
 void	ft_exec_cmd(int fd, t_pipe *pipex, char **av, char **env);
@@ -69,6 +76,5 @@ int		find_line(char *str);
 char	*get_the_line(char *str);
 char	*get_the_rest(char *str, size_t size);
 int		ft_str_line(char *str);
-
 
 #endif
